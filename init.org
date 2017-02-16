@@ -74,13 +74,12 @@
     (unless (package-installed-p 'use-package)
       (package-refresh-contents)
       (package-install 'use-package))
-
     (require 'use-package)
-    (load-library "package-settings")
-    (delete-other-windows)
   #+END_SRC
 
 ** Packages
+
+   Now that use package is installed, lets install the packages we want.
 
 *** Apache Mode
 
@@ -107,6 +106,7 @@
 
     #+BEGIN_SRC elisp
       (use-package helm
+        :ensure t
         :bind (("M-x" . helm-M-x)
                ("C-c f" . helm-find)))
     #+END_SRC
@@ -117,7 +117,7 @@
       (use-package js2-mode
         :ensure t
         :mode
-        ("\\.js$" .js2-mode)
+        ("\\.js$" . js2-mode)
         :init
         (setq js-basic-indent 2)
         :config
@@ -276,7 +276,7 @@
     #+BEGIN_SRC elisp
       (use-package zygospore
         :ensure t
-        :bin ("C-x 1" . zygospore-toggle-delete-other-windows))
+        :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
     #+END_SRC
 
 * Display Settings
