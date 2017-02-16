@@ -1,0 +1,13 @@
+* Readme
+My Emacs configuration files mostly, but also some other useful config files 
+
+** Compiling
+
+  I am unsure how recent an emacs you need to be able to run these files, but they are working 
+  for me on 24.5
+
+  To run this script run the following command:
+
+  #+BEGIN_SRC sh :tangle no
+    emacs --script build.el
+  #+END_SRC
