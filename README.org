@@ -13,10 +13,11 @@
 
 * Contents
 
-- [[Emacs]]
-- [[Tmux]]
+- [[#emacs][Emacs]]
+- [[#Tmux][Tmux]]
 
 * Emacs
+#+CUSTOM_ID: emacs
 
   This is my =~/.emacs.d/init.el= file, written in [[https://www.orgmode.org][org-mode]], so that I can organise
   it and make notes as I write more complex files.
@@ -395,6 +396,7 @@
     #+END_SRC
 
 * Tmux
+#+CUSTOM_ID: tmux
 
 ** Introduction
 
