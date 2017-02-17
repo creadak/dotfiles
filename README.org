@@ -14,7 +14,7 @@
 * Contents
 
 - [[#emacs][Emacs]]
-- [[#Tmux][Tmux]]
+- [[#tmux][Tmux]]
 
 * Emacs
 #+CUSTOM_ID: emacs
