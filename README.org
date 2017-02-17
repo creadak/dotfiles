@@ -14,6 +14,11 @@
 * Contents
 
 - [[#emacs][Emacs]]
+  - [[#compiling][Compiling]]
+  - [[#basic-settings][Basic Settings]]
+  - [[#package-initialization][Package Initialization]]
+  - [[#display-settings][Display Settings]]
+  - [[#indentation-settings][Indentation Settings]]
 - [[#tmux][Tmux]]
 
 * Emacs
@@ -26,11 +31,13 @@
   been directly lifted from that repo.
 
 ** Compiling
+#+CUSTOM_ID: compiling
 
    I am unsure how recent an emacs you need to be able to use this file, but it is working for me
    on GNU Emacs 25.1.1
 
 ** Basic Settings
+#+CUSTOM_ID: basic-settings
 
 *** Fullscreen
 
@@ -70,6 +77,7 @@
     #+END_SRC
 
 ** Package Initialization
+#+CUSTOM_ID: package-initialisation
 
 *** Package Manager
 
@@ -96,9 +104,9 @@
      (require 'use-package)
    #+END_SRC
 
-** Packages
+*** Packages
 
-   Now that use package is installed, lets install the packages we want.
+    Now that use package is installed, lets install the packages we want.
 
 **** Apache Mode
 
@@ -324,6 +332,7 @@
      #+END_SRC
 
 ** Display Settings
+#+CUSTOM_ID: display-settings
 
 *** Menu Bar
 
@@ -370,6 +379,7 @@
     #+END_SRC
 
 ** Indentation Settings
+#+CUSTOM_ID: indentation-settings
 
 *** Tabs Vs Spaces
 
