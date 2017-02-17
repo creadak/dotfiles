@@ -1,13 +1,401 @@
+#+TITLE:  Emacs Configuration File
+#+AUTHOR: Craig Gavagan
+#+EMAIL:  dev@craiggavagan.com
+#+DESCRIPTION: A literate programming version of my Emacs Initialization script.
+#+PROPERTY:    results silent
+#+PROPERTY:    header-args:sh  :tangle no
+#+PROPERTY:    tangle ~/.emacs.d/init.el
+#+PROPERTY:    eval no-export
+#+PROPERTY:    comments org
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+
 * Readme
-My Emacs configuration files mostly, but also some other useful config files 
+
+  My Emacs configuration files mostly, but some other stuff as I add things.
+
+  I got the idea from [[https://github.com/howardabrams/dot-files][Howard Abrams' dotfiles]] repository and used that as a base.
 
 ** Compiling
 
-  I am unsure how recent an emacs you need to be able to run these files, but they are working 
-  for me on 24.5
+   I am unsure how recent an emacs you need to be able to run these files, but they are working for me
+   on 24.5
 
-  To run this script run the following command:
+* Introduction
 
-  #+BEGIN_SRC sh :tangle no
-    emacs --script build.el
+  This is my =~/.emacs.d/init.el= file, written in [[https://www.orgmode.org][org-mode]], so that I can organise
+  it and make notes as I write more complex files.
+
+  The idea for this came from Howard Abrams' [[https://www.github.com/howardabrams/dot-files][dot-files]] repo, and some functions and ideas have 
+  been directly lifted from that repo.
+
+* Basic Settings
+
+** Fullscreen
+
+   Lets start emacs in fullscreen mode.
+
+   #+BEGIN_SRC elisp
+     (toggle-frame-fullscreen)
+   #+END_SRC
+
+** Emacs home directory
+
+   Keep a variable for my emacs directory and a function for getting subdirectories
+
+   #+BEGIN_SRC elisp
+     (defconst cg/emacs-home (concat (getenv "HOME") "/.emacs.d/"))
+     (defun cg/emacs-home-subdir (d) (expand-file-name d cg/emacs-home))
+   #+END_SRC
+
+** Customization File
+
+   I much prefer to customize emacs using emacs lisp over the customization menus, but sometimes it is better to
+   use it. Even still, they should go in their own file, since any customizations will be overridden if I
+   tangle this file after customizing.
+
+   #+BEGIN_SRC elisp
+     (setq custom-file (expand-file-name "custom.el" (cg/emacs-home-subdir "elisp")))
+     (when (file-exists-p custom-file)
+       (load custom-file))
+   #+END_SRC
+   
+** Load Path
+
+   Add $HOME/.emacs.d/elisp to the load path
+
+   #+BEGIN_SRC elisp
+    (add-to-list 'load-path (cg/emacs-home-subdir "elisp"))
+   #+END_SRC
+
+* Package Initialization
+
+** Package Manager
+
+  Emacs now comes with a package manager, which is awesome, but the GNU repos are pretty restictive
+  so we need to at least add the MELPA repository to the repositories
+
+  #+BEGIN_SRC elisp
+    (require 'package)
+    (setq package-archives '(("gnu"   . "http://elpa.gnu.org/packages/")
+                             ("melpa" . "https://melpa.org/packages/")))
+    (package-initialize)
   #+END_SRC
+
+** Use Package
+
+  [[https://github.com/jwiegley/use-package][use-package]] is a neat little thing, allowing you to neatly manage package configuration, installation,
+  keybindings, and other nifty things. It can also dramatically reduce the initial startup time. So lets make
+  sure it's installed.
+
+  #+BEGIN_SRC elisp
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+    (require 'use-package)
+  #+END_SRC
+
+** Packages
+
+   Now that use package is installed, lets install the packages we want.
+
+*** Apache Mode
+
+    #+BEGIN_SRC elisp
+      (use-package apache-mode
+        :ensure t)
+    #+END_SRC
+
+*** Coffee Mode
+
+    #+BEGIN_SRC elisp
+      (use-package coffee-mode
+        :ensure t)
+    #+END_SRC
+
+*** Demo It
+
+    #+BEGIN_SRC elisp
+      (use-package demo-it
+        :ensure t)
+    #+END_SRC
+
+*** Helm
+
+    #+BEGIN_SRC elisp
+      (use-package helm
+        :ensure t
+        :bind (("M-x" . helm-M-x)
+               ("C-c f" . helm-find)))
+    #+END_SRC
+
+*** JS2 Mode
+
+    #+BEGIN_SRC elisp
+      (use-package js2-mode
+        :ensure t
+        :mode
+        ("\\.js$" . js2-mode)
+        :init
+        (setq js-basic-indent 2)
+        :config
+        (setq-default js2-basic-indent 2)
+        (setq-default js2-basic-offset 2))
+    #+END_SRC
+
+*** JSON Mode
+
+    #+BEGIN_SRC elisp
+      (use-package json-mode
+        :ensure t)
+    #+END_SRC
+
+*** LaTeX Preview Pane
+
+    #+BEGIN_SRC elisp
+      (use-package latex-preview-pane
+        :if window-system
+        :ensure t
+        :config
+        (latex-preview-pane-enable))
+    #+END_SRC
+
+*** Linum Mode
+
+    #+BEGIN_SRC elisp
+      (use-package linum
+        :ensure t
+        :bind ("C-c l" . linum-mode)
+        :init
+        (setq linum-format "%d ")
+        (global-linum-mode 1))
+    #+END_SRC
+
+*** Linum Off
+
+    #+BEGIN_SRC elisp
+      (use-package linum-off
+        :ensure t
+        :init (setq linum-disabled-modes-list '(eshell-mode
+                                                wl-summary-mode
+                                                comilation-mode
+                                                diredmode
+                                                doc-view-mode
+                                                image-mode)))
+    #+END_SRC
+
+*** Node REPL
+
+    #+BEGIN_SRC elisp
+      (use-package nodejs-repl
+        :ensure t)
+    #+END_SRC
+
+*** Magit
+
+    #+BEGIN_SRC elisp
+      (use-package magit
+        :ensure t
+        :bind ("C-c g" . magit-status))
+    #+END_SRC
+
+*** Markdown Mode
+
+    #+BEGIN_SRC elisp
+      (use-package markdown-mode
+        :ensure t)
+    #+END_SRC
+
+*** Nginx Mode
+
+    #+BEGIN_SRC elisp
+      (use-package nginx-mode
+        :ensure t)
+    #+END_SRC
+
+*** Python Mode
+
+    #+BEGIN_SRC elisp
+      (use-package python-mode
+        :ensure t
+        :config (setq-default python-indent 2))
+    #+END_SRC
+
+*** Org Mode
+
+    Org mode is cool, I use it for task management, calendaring, notation.
+    My org files live in Nextcloud, and archived tasks/notes are archived in a file corresponding
+    to the date they were archived
+
+    #+BEGIN_SRC elisp
+      (use-package org
+        :ensure t
+        :config
+        (setq org-return-follows-links t
+              org-src-fontify-natively t
+              org-log-done t
+              org-agenda-files '("~/Nextcloud/org")
+              org-archive-location (format-time-string
+                                    "~/Nextcloud/org/archive/%Y/%m/archive-%d.org::"
+                                    (current-time)))
+        :bind
+        (("C-c a" . org-agenda)
+         ("C-c c" . org-capture)))
+    #+END_SRC
+
+*** Org Tree Slide
+
+    #+BEGIN_SRC elisp
+      (use-package org-tree-slide
+        :ensure t)
+    #+END_SRC
+
+*** SASS Mode
+
+    #+BEGIN_SRC elisp
+      (use-package sass-mode
+        :ensure t)
+    #+END_SRC
+
+*** SCSS Mode
+
+    #+BEGIN_SRC elisp
+      (use-package scss-mode
+        :ensure t)
+    #+END_SRC
+
+*** Smartparens
+
+    #+BEGIN_SRC elisp
+      (use-package smartparens
+        :ensure t)
+    #+END_SRC
+
+*** SR Speedbar
+
+    Provides a project explorer similar to what you'd find in Sublime/Atom/Other IDEs
+
+    It has some weird defaults though. So we'll stop it autoupdating based on the active buffer,
+    we'll make it show files it doesn't understand, and we'll make it use text for buttons. We'll
+    leave it on the right though, cause it's kinda nicer on the right.
+
+    #+BEGIN_SRC elisp
+      (use-package sr-speedbar
+        :ensure t
+        :config
+        (setq sr-speedbar-auto-refresh nil)
+        (setq speedbar-show-unknown-files t)
+        (setq speedbar-use-images nil))
+    #+END_SRC
+
+*** YAML Mode
+
+    #+BEGIN_SRC elisp
+      (use-package yaml-mode
+        :ensure t)
+    #+END_SRC
+
+*** Yasnippet
+
+    #+BEGIN_SRC elisp
+      (use-package yasnippet
+        :ensure t
+        :bind ("C-c y n" . yas-new-snippet))
+    #+END_SRC
+
+*** Zygospore
+
+    Bizzare name, really useful functionality. C-x 1 deletes all other windows in core emacs.
+    Zygospore can replace the core functionality with a toggle for other windows.
+
+    #+BEGIN_SRC elisp
+      (use-package zygospore
+        :ensure t
+        :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
+    #+END_SRC
+
+*** Post install
+
+    On fresh installations there'll be a lot of compilation logs, but I don't care, so delete other windows.
+    Speedbar is good. Speedbar is great. We surrender our will. As of this date.
+
+    We'll do all these things after emacs has finished initialising, cause they're not time sensitive
+
+    #+BEGIN_SRC elisp
+      (add-hook 'after-init-hook (lambda ()
+                                   (delete-other-windows)
+                                   (sr-speedbar-open)))
+    #+END_SRC
+
+* Display Settings
+
+** Menu Bar
+
+   I don't like the menu bar, so disable it.
+
+   #+BEGIN_SRC elisp
+     (menu-bar-mode -1)
+   #+END_SRC
+
+** Splash Screen
+
+   The splash screen isn't needed. Toss it.
+
+   #+BEGIN_SRC elisp
+     (setq inhibit-startup-message t)    
+   #+END_SRC
+
+** (Tool|Scroll)bars
+
+   When we're operating in a graphical environment, I prefer no tool bars, no scrollbars, no frills.
+
+   #+BEGIN_SRC elisp
+     (when (window-system)
+       (tool-bar-mode 0)
+       (when (fboundp 'horizontal-scroll-bar-mode)
+         (horizontal-scroll-bar-mode -1))
+       (scroll-bar-mode -1))
+   #+END_SRC
+
+** Theme
+
+   I like the tango-dark theme, it's colourful, but easy on the eyes
+
+   #+BEGIN_SRC elisp
+     (load-theme 'tango-dark)
+   #+END_SRC
+
+** Scratch Message
+
+   I don't need the three lines of text eplaining the scratch buffer.
+
+   #+BEGIN_SRC elisp
+     (setq initial-scratch-message "")
+   #+END_SRC
+
+* Indentation Settings
+
+** Tabs Vs Spaces
+
+   I prefer spaces. Death to tabs.
+
+   #+BEGIN_SRC elisp
+     (setq-default indent-tabs-mode nil)
+     (setq tab-width 2)
+   #+END_SRC
+
+   Make the tab key always indent, then do completion
+
+   #+BEGIN_SRC elisp
+     (setq-default tab-always-indent 'complete)
+   #+END_SRC
+
+** Autosave and backup settings
+
+   Autosave files and backups are annoying. This disables them.
+
+   #+BEGIN_SRC elisp
+     (setq auto-save-default nil)
+     (setq make-backup-files nil)
+   #+END_SRC
