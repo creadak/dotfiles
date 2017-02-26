@@ -1,0 +1,76 @@
+#+TITLE:  Emacs Configuration File
+#+AUTHOR: Craig Gavagan
+#+EMAIL:  dev@craiggavagan.com
+#+DESCRIPTION: A literate programming version of my Emacs Initialization script.
+#+PROPERTY:    results silent
+#+PROPERTY:    tangle ~/.tmux.conf
+#+PROPERTY:    eval no-export
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil cretor:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+
+* Introduction
+
+  This is my =~/.tmux.conf= file.
+
+* Configuration
+
+  I like C-a to be my prefix, so bind that and unbind C-b
+
+  #+BEGIN_SRC sh
+    set-option -g prefix C-a
+    unbind-key C-b
+  #+END_SRC
+
+  To reload the config file use C-a r
+
+  #+BEGIN_SRC sh
+    bind r source-file ~/.tmux.conf
+  #+END_SRC
+
+  Tmux in Tmux is fun. C-a C-a sends C-a to the tmux inside tmux
+
+  #+BEGIN_SRC sh
+    bind C-a send prefix
+  #+END_SRC
+
+  Navigational stuff
+
+  #+BEGIN_SRC sh
+    bind left previous-window
+    bind right next-window
+    bind a last-window
+  #+END_SRC
+
+  Visual bells are good.
+
+  #+BEGIN_SRC sh
+    set-option -g monitor-activity on
+    set-option -g visual-activity on
+    set-option -g visual-bell on
+  #+END_SRC
+
+  I don't even pretend to know what this does
+
+  #+BEGIN_SRC sh
+    set-option -g terminal-overrides '*:enacs@:smacs@:rmacs@:acsc@'
+  #+END_SRC
+
+  Stops tmux automatically renaming windows. I think
+
+  #+BEGIN_SRC sh
+    set-option -g allow-rename off
+  #+END_SRC
+
+  The rest of this is status bar stuff
+
+  #+BEGIN_SRC sh
+    set -g status-bg black
+    set -g status-fg white
+    set -g status-attr bright
+    set -g status right '#[fg=yellow,bold]#(uptime | cut -d"," -f3-)'
+    set-window-option -g window-status-current-bg red
+
+    set -g status-justify centre
+    set -g status-right-length 50
+  #+END_SRC
