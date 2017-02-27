@@ -226,7 +226,7 @@
 *** Org Mode
 
     #+BEGIN_SRC elisp
-      (use-package org-mode
+      (use-package org
         :ensure t
         :config
         (setq org-return-follow-links t
@@ -359,6 +359,12 @@
 
    #+BEGIN_SRC elisp
      (setq initial-scratch-message "")
+   #+END_SRC
+
+** Load Theme
+
+   #+BEGIN_SRC elisp
+     (load-theme 'tango-dark)
    #+END_SRC
 
 * Editing Settings
