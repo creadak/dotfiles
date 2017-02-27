@@ -63,10 +63,11 @@
      (add-to-list 'load-path (cg/emacs-home-subdir "elisp"))
    #+END_SRC
 
-* Package Initialisation
+* Package Settings
+  #+CUSTOM_ID: package-settings
 
 ** Package Manager
-   #+CUSTOM_ID: package-initialisation
+
 
    Emacs now comes with a package manager, which is awesome, but the GNU repos are pretty
    restrictive so I add in the MELPA repository which is much less restrictive.
@@ -248,6 +249,21 @@
         :ensure t)
     #+END_SRC
 
+*** Tramp
+
+    #+BEGIN_SRC elisp
+      (use-package tramp
+        :ensure t
+        :config
+        (setq tramp-password-prompt-regexp
+              (concat "^.*"
+                      (regexp-opt
+                       '("passphrase" "Passphrase"
+                         "password" "Password"
+                         "SecurID Username [cgavagan]") t)
+                      ".*:\0? *")))
+    #+END_SRC
+
 *** SASS Mode
 
     #+BEGIN_SRC elisp
@@ -393,3 +409,5 @@
      (setq auto-save-default nil)
      (setq make-backup-files nil)
    #+END_SRC
+
+** Tramp Regex Prompt
