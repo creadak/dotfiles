@@ -18,7 +18,7 @@
 - [[#editing-settings][Editing Settings]]
 
 * Compilation
-  #+CUSTOM_ID: compiling
+  #+CUSTOM_ID: compilation
 
   I am unsure how recent an emacs you need to be able to use this file, but it works for me on
   GNU Emacs 25.5.1
@@ -230,13 +230,24 @@
       (use-package org
         :ensure t
         :config
-        (setq org-return-follow-links t
+        (setq org-directory "~/Nextcloud/Org/files"
+              org-mobile-inbox-for-pull "~/Nextcloud/Org/flagged.org"
+              org-mobile-directory "~/Nextcloud/Org/MobileOrg"
+              org-mobile-files '("~/Nextcloud/Org/files")
+              org-return-follow-links t
               org-src-fontify-natively t
               org-log-done t
-              org-agenda-files '("~/Nextcloud/org")
+              org-agenda-files '("~/Nextcloud/Org/files")
               org-archive-location (format-time-string
-                                    "~/Nextcloud/org/archive/%Y/%m/archive-%d.org::"
-                                    (current-time)))
+                                    "~/Nextcloud/Org/files/archive/%Y/%m/archive-%d.org::"
+                                    (current-time))
+              org-refile-targets '((nil :maxlevel . 5)
+                                   (org-agenda-files :maxlevel . 5)))
+        (add-to-list 'org-structure-template-alist
+                     '(("C" "#+CUSTOM_ID: ?")
+                       ("sl"
+                        "#+BEGIN_SRC elisp\n?\n#+END_SRC"
+                        "<src lang=\"elisp\">\n?\n</src>")))
         :bind
         (("C-c a" . org-agenda)
          ("C-c c" . org-capture)))
@@ -329,7 +340,6 @@
         :bind
         ("C-x 1" . zygospore-toggle-delete-other-windows))
     #+END_SRC
-
 *** Post Install
 
     Speedbar is good. Speedbar is great. We surrender our will. As of this date

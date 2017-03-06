@@ -31,7 +31,7 @@
   Tmux in Tmux is fun. C-a C-a sends C-a to the tmux inside tmux
 
   #+BEGIN_SRC sh
-    bind C-a send prefix
+    bind C-a send-prefix
   #+END_SRC
 
   Navigational stuff
