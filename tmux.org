@@ -44,7 +44,9 @@
 
   Visual bells are good.
 
-  #+BEGIN_SRC sh
+  Not using this at the moment though, so don't tangle it
+
+  #+BEGIN_SRC sh :tangle no
     set-option -g monitor-activity on
     set-option -g visual-activity on
     set-option -g visual-bell on
@@ -68,7 +70,7 @@
     set -g status-bg black
     set -g status-fg white
     set -g status-attr bright
-    set -g status right '#[fg=yellow,bold]#(uptime | cut -d"," -f3-)'
+    set -g status-right '#[fg=yellow,bold]#(uptime | cut -d"," -f3-)'
     set-window-option -g window-status-current-bg red
 
     set -g status-justify centre
