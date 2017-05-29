@@ -16,4 +16,4 @@
 * Contents
 
 - [[file:emacs-init.org][Emacs]]
-- [[#tmux][Tmux]]
+- [[#tmux.org][Tmux]]
