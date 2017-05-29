@@ -324,6 +324,7 @@
     #+BEGIN_SRC elisp
       (use-package yasnippet
         :ensure t
+        :init (yas-global-mode 1)
         :bind ("C-c y n" . yas-new-snippet))
     #+END_SRC
 
@@ -340,6 +341,7 @@
         :bind
         ("C-x 1" . zygospore-toggle-delete-other-windows))
     #+END_SRC
+
 *** Post Install
 
     Speedbar is good. Speedbar is great. We surrender our will. As of this date
