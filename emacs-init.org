@@ -233,13 +233,13 @@
         (setq org-directory "~/Nextcloud/Org/files"
               org-mobile-inbox-for-pull "~/Nextcloud/Org/flagged.org"
               org-mobile-directory "~/Nextcloud/Org/MobileOrg"
-              org-mobile-files '("~/Nextcloud/Org/files")
+              org-mobile-files '("~/Nextcloud/Org/Files")
               org-return-follow-links t
               org-src-fontify-natively t
               org-log-done t
-              org-agenda-files '("~/Nextcloud/Org/files")
+              org-agenda-files '("~/Nextcloud/Org/Files")
               org-archive-location (format-time-string
-                                    "~/Nextcloud/Org/files/archive/%Y/%m/archive-%d.org::"
+                                    "~/Nextcloud/Org/Files/Archive/%Y-%m/archive-%d.org::"
                                     (current-time))
               org-refile-targets '((nil :maxlevel . 5)
                                    (org-agenda-files :maxlevel . 5)))
