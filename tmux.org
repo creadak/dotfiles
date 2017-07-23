@@ -1,7 +1,7 @@
 #+TITLE:  Emacs Configuration File
 #+AUTHOR: Craig Gavagan
 #+EMAIL:  dev@craiggavagan.com
-#+DESCRIPTION: A literate programming version of my Emacs Initialization script.
+#+DESCRIPTION: A literate programming version of my tmux config.
 #+PROPERTY:    results silent
 #+PROPERTY:    tangle ~/.tmux.conf
 #+PROPERTY:    eval no-export
