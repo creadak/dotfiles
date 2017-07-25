@@ -28,10 +28,11 @@
 
 ** Fullscreen
 
-   Lets start emacs in fullscreen mode
+   Lets start emacs in fullscreen mode when a window system is available
 
    #+BEGIN_SRC elisp
-     (toggle-frame-fullscreen)
+     (when (window-system)
+       (toggle-frame-fullscreen))
    #+END_SRC
 
 ** Emacs home directory
