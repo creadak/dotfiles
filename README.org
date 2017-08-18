@@ -11,9 +11,9 @@
 
 * Introduction
 
-  These are my configuration files. Written in [[http://orgmode.org][org-mode]] because reasons.
+  These are my configuration files.
 
 * Contents
 
-- [[file:emacs-init.org][Emacs]]
-- [[file:tmux.org][Tmux]]
+- [[init.el][Emacs]]
+- [[file:tmux.conf][Tmux]]
